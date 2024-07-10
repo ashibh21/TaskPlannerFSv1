@@ -1,13 +1,16 @@
 const express = require("express");
 const { createTodo, updateTodo } = require("./types");
+const cors = require("cors");
 const app = express();
 const PORT = 3000;
 const { todo } = require("./db");
+
 app.use(express.json());
+app.use(cors());
 
 app.post("/todo", async function (req, res) {
   const createPayload = req.body;
-  console.log(createPayload);
+  console.log("be");
   const parsedPayload = createTodo.safeParse(createPayload);
   if (!parsedPayload) {
     res.status(403).json({
@@ -29,6 +32,7 @@ app.post("/todo", async function (req, res) {
 
 app.get("/todos", async function (req, res) {
   const data = await todo.find({});
+  console.log(data);
   res.json({
     msg: data,
   });
